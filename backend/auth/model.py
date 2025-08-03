@@ -9,3 +9,8 @@ class User(BaseModel):
 
 class UserInDB(User):
     hashed_password: str
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+    email : str | None = None
