@@ -1,0 +1,30 @@
+microservices-demo/
+│
+├── gateway/
+│ ├── rpc_client.py
+│ ├── .env 
+│ ├── requirements.txt
+│ └── main.py
+│
+├── ml_services/
+│ ├── requirements.txt
+│ ├── artifacts/
+│ ├── .env
+│ └── main.py
+│
+├── notification_service/
+│ ├── email_service.py
+│ ├── requirements.txt
+│ ├── .env
+│ └── main.py
+│
+├── auth/
+│ ├── database.py
+│ ├── models.py
+│ ├── schemas.py
+│ ├── service.py
+│ ├── requirements.txt
+│ ├── .env
+│ └── main.py
+│
+└── README.md
