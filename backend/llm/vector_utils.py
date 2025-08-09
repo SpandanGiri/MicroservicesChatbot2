@@ -8,7 +8,7 @@ import os
 
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, length_function=len)
-embedding_function = OpenAIEmbeddings()
+embedding_function = OpenAIEmbeddings(api_key=os.environ["OPENAI_API_KEY"])
 
 
 vectorstore = Chroma(persist_directory="./chroma_db", embedding_function=embedding_function)
