@@ -1,13 +1,10 @@
-from langchain_openai import ChatOpenAI
+from langchain_ollama import OllamaLLM
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from vector_utils import vectorstore
 import getpass
 import os
-
-if not os.environ.get("OPENAI_API_KEY"):
-    os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
 
 
 contextualize_q_system_prompt = (
@@ -33,12 +30,9 @@ qa_prompt = ChatPromptTemplate.from_messages([
 
 retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
 
-def get_rag_chain(model="gpt-4o-mini"):
-    if not os.environ.get("OPENAI_API_KEY"):
-        os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
+def get_rag_chain(model="llama3.2"):
 
-    print(f"openai_key: {os.environ["OPENAI_API_KEY"]}")
-    llm = ChatOpenAI(model=model,api_key=os.environ["OPENAI_API_KEY"])
+    llm = OllamaLLM(model=model)
     history_aware_retriever = create_history_aware_retriever(llm, retriever, qa_prompt)
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)    

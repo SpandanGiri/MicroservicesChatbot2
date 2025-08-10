@@ -20,10 +20,10 @@ def create_appl_logs():
                      model TEXT,
                      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
     
-def insert_appl_logs(session_id,question,answer,model,timestamp):
+def insert_appl_logs(session_id,question,answer,model):
     conn = get_db_connection()
 
-    conn.execute(' insert into application_logs(session_id, user_query, gpt_response, model) values(?,?,?,?)',[session_id,question,answer,model,timestamp])
+    conn.execute(' insert into application_logs(session_id, user_query, gpt_response, model) values(?,?,?,?)',[session_id,question,answer,model])
     conn.commit()
     conn.close()
 

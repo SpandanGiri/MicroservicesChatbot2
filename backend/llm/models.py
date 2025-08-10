@@ -3,8 +3,7 @@ from enum import Enum
 from datetime import datetime
 
 class ModelName(str,Enum):
-    GPT4_O = "gpt-4o"
-    GPT4_O_MINI = "gpt-4o-mini"
+    OLLAMA = "llama3.2"
 
 class QueryInput(BaseModel):
     session_id:str

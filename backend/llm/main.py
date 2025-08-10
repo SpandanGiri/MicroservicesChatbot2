@@ -16,7 +16,7 @@ def test():
     return{'model':'Greetings'}
 
 
-@app.post("/chat",response_model=QueryInput)
+@app.post("/chat",response_model=QueryResponse)
 def chat(query:QueryInput):
     session_id = query.session_id or str(uuid.uuid4)
     logging.info(f"Session ID: {session_id}, User Query: {query.question}, Model: {query.model.value}")
@@ -25,7 +25,9 @@ def chat(query:QueryInput):
 
     history_chain = get_rag_chain(query.model.value)
 
-    answer = history_chain.invoke({"chat_history":chat_history,"input":query.question})['answer']
+    context = ''''''
+
+    answer = history_chain.invoke({"chat_history":chat_history,"input":query.question,"context":context})['answer']
 
     logging.info(f"Session ID: {session_id}, AI Response: {answer}")
 
