@@ -3,16 +3,22 @@ import logging
 from models import ModelName,QueryInput,QueryResponse,DocumentInfo,DeleteFileRequest
 from llm_utils import get_rag_chain
 from db_utils import get_chat_history,insert_appl_logs,create_appl_logs
+import uuid
 app = FastAPI()
 
+#loggging config
+logging.basicConfig(filename="llm.log",
+                    format='%(asctime)s %(message)s',
+                    filemode='w')
 
 @app.get("/")
 def test():
     return{'model':'Greetings'}
 
-@app.get("/chat")
+
+@app.post("/chat",response_model=QueryInput)
 def chat(query:QueryInput):
-    session_id = QueryInput.session_id or str(uuid.uuid4())
+    session_id = query.session_id or str(uuid.uuid4)
     logging.info(f"Session ID: {session_id}, User Query: {query.question}, Model: {query.model.value}")
 
     chat_history = get_chat_history(session_id)
@@ -24,15 +30,9 @@ def chat(query:QueryInput):
     logging.info(f"Session ID: {session_id}, AI Response: {answer}")
 
     insert_appl_logs(session_id=session_id, question=query.question,answer=answer,model=query.model.value)
+    print(answer)
     return QueryResponse(session_id=session_id,answer=answer,model=query.model.value)
     
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":

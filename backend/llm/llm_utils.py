@@ -37,6 +37,7 @@ def get_rag_chain(model="gpt-4o-mini"):
     if not os.environ.get("OPENAI_API_KEY"):
         os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
 
+    print(f"openai_key: {os.environ["OPENAI_API_KEY"]}")
     llm = ChatOpenAI(model=model,api_key=os.environ["OPENAI_API_KEY"])
     history_aware_retriever = create_history_aware_retriever(llm, retriever, qa_prompt)
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
